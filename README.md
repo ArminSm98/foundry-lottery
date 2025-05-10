@@ -92,7 +92,7 @@ cast to-dec 0x4d2
 - Create a new wallet:
 
 ```shell
-cast wallet import SaeedMainWallet --interactive
+cast wallet import ArminMainWallet --interactive
 ```
 
 - Get the Cast wallet list:
@@ -104,7 +104,7 @@ cast wallet list
 - Use a specific wallet for transactions:
 
 ```shell
-forge script script/Counter.s.sol:CounterScript --rpc-url $SEPOLIA_RPC --broadcast --account SaeedMainWallet --sender 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d
+forge script script/Counter.s.sol:CounterScript --rpc-url $SEPOLIA_RPC --broadcast --account ArminMainWallet --sender 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d
 ```
 
 ### Gas Analysis
@@ -134,7 +134,7 @@ cast storage 0x5FbDB2315678afecb367f032d93F642f64180aa3 2
 - Get the function signature for a given function name:
 
 ```shell
-cast sig "saeed()"
+cast sig "armin()"
 ```
 
 - Generate a gas report for tests:
