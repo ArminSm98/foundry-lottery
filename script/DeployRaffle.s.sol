@@ -6,10 +6,12 @@ import {Script, console} from "forge-std/Script.sol";
 import {Raffle} from "../src/Raffle.sol";
 import {HelperConfig} from "./HelperConfig.s.sol";
 
-contract RaffleScript is Script {
-    function run() public {}
+contract DeployRaffle is Script {
+    function run() public {
+        deployContract();
+    }
 
-    function deployRaffle() public returns (Raffle, HelperConfig) {
+    function deployContract() public returns (Raffle, HelperConfig) {
         HelperConfig helperConfig = new HelperConfig();
         // local -> deploy mocks, get local config
         // sepolia -> get sepolia config

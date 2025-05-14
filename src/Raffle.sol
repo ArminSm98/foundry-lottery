@@ -70,13 +70,13 @@ contract Raffle is VRFConsumerBaseV2Plus {
         bytes32 gasLane,
         uint32 callbackGasLimit,
         uint256 subscriptionId
-    ) VRFConsumerBaseV2Plus(i_vrfCoordinator) {
+    ) VRFConsumerBaseV2Plus(vrfCoordinator) {
         i_vrfCoordinator = vrfCoordinator;
         i_entranceFee = entranceFee;
         i_interval = interval;
         i_keyHash = gasLane;
-        i_subscriptionId = subscriptionId;
         i_callbackGasLimit = callbackGasLimit;
+        i_subscriptionId = subscriptionId;
 
         s_lastTimeStamp = block.timestamp;
         s_raffleState = RaffleState.OPEN;
@@ -86,11 +86,11 @@ contract Raffle is VRFConsumerBaseV2Plus {
         // require(msg.value>=i_entranceFee,"send more money to enter the raffle"); //Not optimize cause we need do store a string
         // require(msg.value>=i_entranceFee,Raffle__SendMoreToEnterRaffle()); //1-only after solidity 0.18.26
         //2-need a complex compiler to run and take more time to compile 3= more gas and not optimized.
-        if (s_raffleState != RaffleState.OPEN) {
-            revert Raffle__RaffleNotOpen();
-        }
         if (msg.value < i_entranceFee) {
             revert Raffle__SendMoreToEnterRaffle();
+        }
+        if (s_raffleState != RaffleState.OPEN) {
+            revert Raffle__RaffleNotOpen();
         }
         s_players.push(payable(msg.sender));
         emit RaffleEnterd(msg.sender);
@@ -148,7 +148,11 @@ contract Raffle is VRFConsumerBaseV2Plus {
     }
 
     //CEI Checks, Effects, Interactions patterm
-    function fulfillRandomWords(uint256, /*requestId*/ uint256[] calldata randomWords) internal override {
+    function fulfillRandomWords(
+        uint256,
+        /*requestId*/
+        uint256[] calldata randomWords
+    ) internal override {
         //Checks
         //no checks here
 
@@ -171,5 +175,13 @@ contract Raffle is VRFConsumerBaseV2Plus {
     /*getter functions*/
     function getEntranceFee() external view returns (uint256) {
         return i_entranceFee;
+    }
+
+    function getRaffleState() external view returns (RaffleState) {
+        return s_raffleState;
+    }
+
+    function getPlayer(uint256 indexOfPlayer) external view returns (address) {
+        return s_players[indexOfPlayer];
     }
 }
