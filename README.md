@@ -151,6 +151,21 @@ forge test --gas-report
   3. **Interactions**: Call external contracts or transfer funds.
 - **Example**: In the `withdraw` function, first check if the caller is the owner, then update the balance, and finally transfer funds to the owner. This order prevents reentrancy attacks by ensuring that the state is updated before any external calls are made.
 
+### Foundry cheatcodes
+- **Cheatcodes**: Foundry provides a set of cheatcodes that allow you to manipulate the EVM state during testing. These cheatcodes can be used to simulate various scenarios, such as reverting transactions, manipulating block timestamps, and more.
+
+- **start broadcasting**: You can use the `vm.startBroadcast()` cheatcode to start broadcasting transactions. This is useful for testing how your contract behaves when called by different addresses.
+- **stop broadcasting**: You can use the `vm.stopBroadcast()` cheatcode to stop broadcasting transactions. This is useful for testing how your contract behaves when called by different addresses.
+- **create an address**: You can use the `vm.makeAddr()` cheatcode to create a new address. This is useful for testing how your contract behaves when called by different addresses.
+- **add balance**: You can use the `vm.deal()` cheatcode to add balance to an address. This is useful for testing how your contract behaves when called with different balances.
+- **Prank the sender of the transaction**: You can use the `vm.prank()` cheatcode to change the sender of a transaction. This is useful for testing how your contract behaves when called by different addresses
+- **start pranking**: You can use the `vm.startPrank()` cheatcode to start a prank. This is useful for testing how your contract behaves when called by different addresses.
+- **stop pranking**: You can use the `vm.stopPrank()` cheatcode to stop a prank. This is useful for testing how your contract behaves when called by different addresses.
+- **set the block timestamp**: You can use the `vm.warp()` cheatcode to set the block timestamp. This is useful for testing time-dependent logic in your contracts.
+- **set the block number**: You can use the `vm.roll()` cheatcode to set the block number. This is useful for testing block-dependent logic in your contracts.
+- **expect revert**: You can use the `vm.expectRevert()` cheatcode to expect a transaction to revert. This is useful for testing how your contract behaves when called with invalid inputs.
+- **expect emit**: You can use the `vm.expectEmit()` cheatcode to expect an event to be emitted. This is useful for testing how your contract behaves when called with valid inputs.
+
 ## Foundry
 
 **Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
