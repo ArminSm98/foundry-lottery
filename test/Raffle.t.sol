@@ -75,9 +75,9 @@ contract RaffleTest is Test {
     function testEnterRaffleRevertWhenStateIsCalculating() public {
         //arrange
         vm.prank(PLAYER);
-        raffle.enterRaffle{value: entranceFee}(); // give money to contract and add player 
-        vm.warp(block.timestamp+ interval + 1); // set block.timestamp to block.timestamp+ interval + 1
-        vm.roll(block.number+1); //set block.number to block.number+1
+        raffle.enterRaffle{value: entranceFee}(); // give money to contract and add player
+        vm.warp(block.timestamp + interval + 1); // set block.timestamp to block.timestamp+ interval + 1
+        vm.roll(block.number + 1); //set block.number to block.number+1
         raffle.performUpkeep(""); // call this to change the state to calculating ( we already pass the checkUpkeep conditions)
 
         //act/assert
