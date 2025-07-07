@@ -83,7 +83,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
     }
 
     function enterRaffle() public payable {
-        // require(msg.value>=i_entranceFee,"send more money to enter the raffle"); //Not optimize cause we need do store a string
+        // require(msg.value>=i_entranceFee,"send more money to enter the raffle"); //Not optimize cause we need to store a string
         // require(msg.value>=i_entranceFee,Raffle__SendMoreToEnterRaffle()); //1-only after solidity 0.18.26
         //2-need a complex compiler to run and take more time to compile 3= more gas and not optimized.
         if (msg.value < i_entranceFee) {

@@ -85,7 +85,8 @@ contract RaffleTest is Test {
         vm.expectRevert(Raffle.Raffle__RaffleNotOpen.selector);
         raffle.enterRaffle{value: entranceFee}();
     }
-
+    /*///////////////////////////////////////////CHECK UPKEEP//////////////////////////////////////////////*/
+    
     function testCheckUpkeepReturnsFalseIfHasNoBalance() public {
         //arrange
         vm.warp(block.timestamp + interval + 1);
