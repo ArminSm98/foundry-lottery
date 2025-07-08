@@ -26,6 +26,20 @@ forge test --match-test test_get_version -vvvvv --rpc-url $SEPOLIA_RPC
 forge coverage -vvvvv --rpc-url $BINANCE_RPC
 ```
 
+
+- Generate a coverage detailed report for debugging:
+
+```shell
+forge coverage --report debug 
+```
+
+
+- Generate a coverage detailed report for debugging in a text file:
+
+```shell
+forge coverage --report debug > coverage.txt
+```
+
 - Testing follows three stages:
   1. **Arrange**: Set up the test environment.
   2. **Act**: Execute the function or action being tested.
