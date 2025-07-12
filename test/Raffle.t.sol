@@ -4,11 +4,11 @@ pragma solidity ^0.8.19;
 import {Test, console} from "forge-std/Test.sol";
 import {Raffle} from "../src/Raffle.sol";
 import {DeployRaffle} from "../script/DeployRaffle.s.sol";
-import {HelperConfig} from "../script/HelperConfig.s.sol";
+import {HelperConfig, CodeConstants} from "../script/HelperConfig.s.sol";
 import {Vm} from "forge-std/Vm.sol";
 import {VRFCoordinatorV2_5Mock} from "@chainlink/contracts/src/v0.8/vrf/mocks/VRFcoordinatorV2_5Mock.sol";
 
-contract RaffleTest is Test {
+contract RaffleTest is CodeConstants, Test {
     Raffle private raffle;
     HelperConfig private helperConfig;
 
@@ -28,6 +28,7 @@ contract RaffleTest is Test {
     function setUp() external {
         DeployRaffle deployer = new DeployRaffle();
         (raffle, helperConfig) = deployer.deployContract();
+        vm.deal(address(raffle), 0);
         HelperConfig.NetworkConfig memory config = helperConfig.getConfig();
         entranceFee = config.entranceFee;
         interval = config.interval;
@@ -181,13 +182,24 @@ contract RaffleTest is Test {
 
     /*///////////////////////////////////////////Fulfill RandomWords//////////////////////////////////////////////*/
 
-    function testFullfillRandomWordsCanOnlyBeCalledAfterPerformUpkeep(uint256 randomRequestId) public {
+    modifier skipFork() {
+        if (block.chainid != LOCAL_CHAIN_ID) {
+            return;
+        }
+        _;
+    }
+
+    function testFullfillRandomWordsCanOnlyBeCalledAfterPerformUpkeep(uint256 randomRequestId)
+        public
+        raffleEntered
+        skipFork
+    {
         //Arrange/Act/Assert
         vm.expectRevert(VRFCoordinatorV2_5Mock.InvalidRequest.selector);
         VRFCoordinatorV2_5Mock(vrfCoordinator).fulfillRandomWords(randomRequestId, address(raffle));
     }
 
-    function testFulfillRandomWordsPickSWinnerResetsAndPayMoney() public raffleEntered {
+    function testFulfillRandomWordsPickSWinnerResetsAndPayMoney() public raffleEntered skipFork {
         //Arrange
         uint256 additionalEntrants = 3; //4 total entrants
         uint256 startingIndex = 1;
