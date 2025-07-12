@@ -6,6 +6,7 @@ import {Raffle} from "../src/Raffle.sol";
 import {DeployRaffle} from "../script/DeployRaffle.s.sol";
 import {HelperConfig} from "../script/HelperConfig.s.sol";
 import {Vm} from "forge-std/Vm.sol";
+import {VRFCoordinatorV2_5Mock} from "@chainlink/contracts/src/v0.8/vrf/mocks/VRFcoordinatorV2_5Mock.sol";
 
 contract RaffleTest is Test {
     Raffle private raffle;
@@ -176,5 +177,13 @@ contract RaffleTest is Test {
         //Assert
         assert(uint256(requestId) > 0);
         assert(uint256(raffleState) == 1);
+    }
+
+    /*///////////////////////////////////////////Fulfill RandomWords//////////////////////////////////////////////*/
+
+    function testFullfillRandomWordsCanOnlyBeCalledAfterPerformUpkeep(uint256 randomRequestId) public {
+        //Arrange/Act/Assert
+        vm.expectRevert(VRFCoordinatorV2_5Mock.InvalidRequest.selector);
+        VRFCoordinatorV2_5Mock(vrfCoordinator).fulfillRandomWords(randomRequestId, address(raffle));
     }
 }
